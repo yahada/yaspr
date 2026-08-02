@@ -1,15 +1,17 @@
 #include "sniffer.hpp"
+#include <cassert>
 #include <iostream>
+#include <iomanip>
 std::vector< std::string > yaspr::Sniffer::getAllDevs() const
 {
   pcap_if_t* allDevs = nullptr;
-  char errBuf[PCAP_ERRBUF_SIZE];
+  char errbuf[PCAP_ERRBUF_SIZE];
   
   std::vector< std::string > devs = {};
 
-  if (pcap_findalldevs(&allDevs, errBuf) == -1)
+  if (pcap_findalldevs(&allDevs, errbuf) == -1)
   {
-    std::cerr << "FIND ALL DEVS ERROR: " << errBuf << '\n'; // TODO: rewrite error text
+    std::cerr << "FIND ALL DEVS ERROR: " << errbuf << '\n'; // TODO: rewrite error text
     return devs;
   }
 
@@ -37,3 +39,40 @@ std::string yaspr::Sniffer::getDev() const
 {
   return device_;
 }
+
+
+void packet_callback(u_char* user, const pcap_pkthdr* h, const u_char* packet)
+{
+  static size_t packetNum = 0;
+  std::cout << packetNum++ << ":\n";
+  size_t count = 0;
+  for (size_t i = 0; i < h->len; ++i, ++count)
+  {
+    if (count % 10 == 0 && i != 0)
+    {
+      std::cout << '\n';
+    }
+    else if (i != 0 )
+    {
+      std::cout << ' ';
+    }
+    
+
+    std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(packet[i]);
+  }
+  std::cout << '\n';
+ 
+}
+
+
+void yaspr::Sniffer::startSniffing()
+{
+  assert(!device_.empty());
+
+  char errbuf[PCAP_ERRBUF_SIZE];
+  descr_ = pcap_open_live(device_.c_str(), BUFSIZ, 1, 10, errbuf); 
+
+  pcap_loop(descr_, -1, packet_callback, nullptr);
+ 
+}
+

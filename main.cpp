@@ -4,19 +4,10 @@ int main()
 {
   
   yaspr::Sniffer snf;
-  std::vector< std::string > devs = snf.getAllDevs();
+  snf.chooseDev("enp4s0");
 
-  for (size_t i = 0; i < devs.size(); ++i)
-  {
-    std::cout << devs[i] << '\n';
-  }
-  
-  snf.chooseDev("aaa");
-  std::cout << snf.getDev();
-  snf.dropDev();
-  
-  std::cout << snf.getDev();
 
+  snf.startSniffing();
   //PART 1
   //TODO: packet sniffer begin stuff using:
   //-pcap
@@ -31,5 +22,5 @@ int main()
   //TODO:make network statistics
   //
   //PART2
-  //...
+
 }

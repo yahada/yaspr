@@ -14,9 +14,14 @@ namespace yaspr
     void chooseDev(const std::string& devName);
     void dropDev();
     std::string getDev() const;
-  
+    
+    void startSniffing();
+    Packet packetTranscript(const u_char* bytes);
+    void stopSniffing();
   private:
     std::string device_;
+    pcap_t* descr_;
+
   };
 
 
