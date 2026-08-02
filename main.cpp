@@ -1,5 +1,21 @@
+#include "sniffer.hpp"
+#include <iostream>
 int main()
 {
+  
+  yaspr::Sniffer snf;
+  std::vector< std::string > devs = snf.getAllDevs();
+
+  for (size_t i = 0; i < devs.size(); ++i)
+  {
+    std::cout << devs[i] << '\n';
+  }
+  
+  snf.chooseDev("aaa");
+  std::cout << snf.getDev();
+  snf.dropDev();
+  
+  std::cout << snf.getDev();
 
   //PART 1
   //TODO: packet sniffer begin stuff using:
