@@ -1,4 +1,5 @@
 #ifndef PACKET_HPP
+#ifndef PACKET_HPP
 #define PACKET_HPP
 namespace yaspr
 {
