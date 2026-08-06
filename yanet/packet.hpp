@@ -10,7 +10,7 @@ namespace yaspr
     LinkLayerHeader* llheader_;
     NetworkLayerHeader* nlheader_;
     TransportLayerHeader* tlheader_;
-    u_char* data_;
+    uint8_t data_;
 
     void defineLinkLayerProtocol();
     void defineNetworkLayerProtocol();
