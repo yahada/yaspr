@@ -4,21 +4,23 @@
 #include "linkLayerHeader.hpp"
 #include <array>
 #include <cstdint>
-
+#include <cstddef>
 
 namespace yaspr
 {
-  using ETH_ALEN = 6;
-
+  constexpr size_t ETH_ALEN = 6;
+  using mac_t = std::array<uint8_t, ETH_ALEN>;
   class Ethernet: public LinkLayerHeader final {
   public:
-    Ethernet(const u_char* bytes);
-    override void destAddr();
-    override void sourceAddr();
+    Ethernet(const uint8_t* bytes, size_t len);
+    override mac_t destAddr() const noexcept;
+    override mac_t sourceAddr() const noexcept;
+    
   private:
-    uint8_t dhost_[ETH_ALEN];
-    uint8_t shost_[ETH_ALEN];
-    uint16_t ether_type_; };
+    mac_t dhost_;
+    mac_t shost_;
+    uint16_t ether_type_; 
+  };
 }
 
 #endif

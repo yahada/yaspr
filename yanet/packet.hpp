@@ -1,6 +1,8 @@
 #ifndef PACKET_HPP
-#ifndef PACKET_HPP
 #define PACKET_HPP
+
+#include <pcap/pcap.h>
+
 namespace yaspr
 {
   class Packet {
@@ -10,9 +12,9 @@ namespace yaspr
     LinkLayerHeader* llheader_;
     NetworkLayerHeader* nlheader_;
     TransportLayerHeader* tlheader_;
-    uint8_t data_;
+    std::vector<uint8_t> data_;
 
-    void defineLinkLayerProtocol();
+    void defineLinkLayerProtocol(pcap_t* pkt);
     void defineNetworkLayerProtocol();
     void defineTransportLayerProtocol();
   }
