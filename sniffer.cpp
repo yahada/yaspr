@@ -2,6 +2,7 @@
 #include <cassert>
 #include <iostream>
 #include <iomanip>
+#include "yanet/packet.hpp"
 std::vector< std::string > yaspr::Sniffer::getAllDevs() const
 {
   pcap_if_t* allDevs = nullptr;
@@ -43,25 +44,30 @@ std::string yaspr::Sniffer::getDev() const
 
 void packet_callback(u_char* user, const pcap_pkthdr* h, const u_char* packet)
 {
-  static size_t packetNum = 0;
-  std::cout << packetNum++ << ":\n";
-  size_t count = 0;
-  for (size_t i = 0; i < h->len; ++i, ++count)
-  {
-    if (count % 10 == 0 && i != 0)
-    {
-      std::cout << '\n';
-    }
-    else if (i != 0 )
-    {
-      std::cout << ' ';
-    }
-    
+//  static size_t packetNum = 0;
+//  std::cout << packetNum++ << ":\n";
+//  size_t count = 0;
+//  for (size_t i = 0; i < h->len; ++i, ++count)
+//  {
+//    if (count % 10 == 0 && i != 0)
+//    {
+//      std::cout << '\n';
+//    }
+//    else if (i != 0 )
+//    {
+//      std::cout << ' ';
+//    }
+//    
+//
+//    std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(packet[i]);
+//  }
+//  std::cout << '\n';
 
-    std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(packet[i]);
-  }
-  std::cout << '\n';
- 
+//  std::cout << "i\n";
+  auto* sniffer = reinterpret_cast<yaspr::Sniffer*> (user);
+  yaspr::Packet pkt = sniffer->packetTranscript(h, packet);
+  pkt.showLinkLayerInfo();
+
 }
 
 
@@ -72,7 +78,14 @@ void yaspr::Sniffer::startSniffing()
   char errbuf[PCAP_ERRBUF_SIZE];
   descr_ = pcap_open_live(device_.c_str(), BUFSIZ, 1, 10, errbuf); 
 
-  pcap_loop(descr_, -1, packet_callback, nullptr);
+ // std::cout << errbuf << '\n';
+  pcap_loop(descr_, -1, packet_callback, reinterpret_cast<u_char*>(this));
  
+}
+
+yaspr::Packet yaspr::Sniffer::packetTranscript(const pcap_pkthdr* h, const u_char* packet)
+{
+  yaspr::Packet pkt(descr_, packet, h);
+  return pkt;
 }
 

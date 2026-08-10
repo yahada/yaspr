@@ -2,21 +2,24 @@
 #define PACKET_HPP
 
 #include <pcap/pcap.h>
-
+#include "linkLayer/protocols/ethernet.hpp"
+#include <iostream>
 namespace yaspr
 {
   class Packet {
   public:
+    Packet(pcap_t* descr, const u_char* packet, const pcap_pkthdr* pktinfo);
 
+    void showLinkLayerInfo() const;
   private:
     LinkLayerHeader* llheader_;
-    NetworkLayerHeader* nlheader_;
-    TransportLayerHeader* tlheader_;
-    std::vector<uint8_t> data_;
+    // NetworkLayerHeader* nlheader_;
+    // TransportLayerHeader* tlheader_;
+    // std::vector<uint8_t> data_;
 
-    void defineLinkLayerProtocol(pcap_t* pkt);
-    void defineNetworkLayerProtocol();
-    void defineTransportLayerProtocol();
-  }
+    void defineLinkLayerProtocol(pcap_t* descr, const u_char* packet, const pcap_pkthdr* pktinfo);
+    // void defineNetworkLayerProtocol();
+    // void defineTransportLayerProtocol();
+  };
 }
 #endif

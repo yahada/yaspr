@@ -1,21 +1,24 @@
 #ifndef ETHERNET_HPP
 #define ETHERNET_HPP
 
-#include "linkLayerHeader.hpp"
+#include "../linkLayerHeader.hpp"
 #include <array>
 #include <cstdint>
+#include <iomanip>
 #include <cstddef>
-
+#include <iostream>
+#include <pcap/pcap.h>
+#include <cstring>
 namespace yaspr
 {
-  constexpr size_t ETH_ALEN = 6;
-  using mac_t = std::array<uint8_t, ETH_ALEN>;
-  class Ethernet: public LinkLayerHeader final {
+
+  class Ethernet final: public LinkLayerHeader {
   public:
-    Ethernet(const uint8_t* bytes, size_t len);
-    override mac_t destAddr() const noexcept;
-    override mac_t sourceAddr() const noexcept;
-    
+    Ethernet(const u_char* bytes, size_t len);
+    mac_t destAddr() const noexcept override;
+    mac_t sourceAddr() const noexcept override;
+    void showDestAddr() const noexcept override;    
+    void showSourceAddr() const noexcept override;    
   private:
     mac_t dhost_;
     mac_t shost_;
