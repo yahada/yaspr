@@ -3,6 +3,7 @@
 
 #include <pcap/pcap.h>
 #include "linkLayer/protocols/ethernet.hpp"
+#include "linkLayer/linkLayerHeader.hpp"
 #include <iostream>
 namespace yaspr
 {

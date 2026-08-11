@@ -17,8 +17,6 @@ namespace yaspr
     Ethernet(const u_char* bytes, size_t len);
     mac_t destAddr() const noexcept override;
     mac_t sourceAddr() const noexcept override;
-    void showDestAddr() const noexcept override;    
-    void showSourceAddr() const noexcept override;    
   private:
     mac_t dhost_;
     mac_t shost_;

@@ -8,29 +8,22 @@ yaspr::Packet::Packet(pcap_t* descr, const u_char* packet, const pcap_pkthdr* pk
 void yaspr::Packet::defineLinkLayerProtocol(pcap_t* descr, const u_char* packet, const pcap_pkthdr* pktinfo)
 {
   int linkLayerProt = pcap_datalink(descr);
+  switch (linkLayerProt)
+  {
+    case -1:
+      return;
 
-  if (linkLayerProt == -1)
-  {
-    return;
-  }
- 
-  if (linkLayerProt == DLT_EN10MB)
-  {
-    llheader_ = new Ethernet(packet, pktinfo->len);
-    std::cout << "EHTER PACKET\n";
-  }
-
-  if (linkLayerProt != DLT_EN10MB)
-  {
-    std::cout << "other packet\n";
+    case 1:
+      std::cout << "ethernet: ";
+      llheader_ = new Ethernet(packet, pktinfo->len);
+      break;
+    
+    default:
+      std::cout << "yet unknown prot: " << linkLayerProt << '\n';
   }
 }
 
 void yaspr::Packet::showLinkLayerInfo() const
 {
-  std::cout << "ll->";
-  llheader_->showDestAddr();
-  std::cout << "<-";
-  llheader_->showSourceAddr();
-  std::cout << '\n';
+  std::cout << llheader_->destAddr() << "<-" << llheader_->sourceAddr() << '\n';
 }

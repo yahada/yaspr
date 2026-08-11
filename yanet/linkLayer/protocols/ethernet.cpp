@@ -24,29 +24,3 @@ yaspr::mac_t yaspr::Ethernet::sourceAddr() const noexcept
   return shost_;
 }
 
-void yaspr::Ethernet::showDestAddr() const noexcept
-{
-  for (size_t i = 0; i < 6; ++i)
-  {
-    if (i != 0)
-    {
-      std::cout << ':';
-    }
-    std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(dhost_[i]);
-  }
-}
-
-void yaspr::Ethernet::showSourceAddr() const noexcept
-{
-  for (size_t i = 0; i < 6; ++i)
-  {
-    if (i != 0)
-    {
-      std::cout << ':';
-    }
-    
-    std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(shost_[i]);
-
-
-  }
-}
