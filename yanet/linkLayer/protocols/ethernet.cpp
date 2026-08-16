@@ -1,5 +1,7 @@
 #include "ethernet.hpp"
-
+#include <arpa/inet.h>
+#include <cstring>
+#include <iostream>
 yaspr::Ethernet::Ethernet(const u_char* bytes, size_t len) 
 {
   if (len < 14)

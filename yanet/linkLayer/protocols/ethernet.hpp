@@ -1,14 +1,10 @@
 #ifndef ETHERNET_HPP
 #define ETHERNET_HPP
 
-#include "../linkLayerHeader.hpp"
-#include <array>
+#include <sys/types.h>
 #include <cstdint>
-#include <iomanip>
 #include <cstddef>
-#include <iostream>
-#include <pcap/pcap.h>
-#include <cstring>
+#include "../linkLayerHeader.hpp"
 namespace yaspr
 {
 

@@ -1,8 +1,7 @@
 #include "sniffer.hpp"
-#include <cassert>
+#include <assert.h>
+#include <stdio.h>
 #include <iostream>
-#include <iomanip>
-#include "yanet/packet.hpp"
 std::vector< std::string > yaspr::Sniffer::getAllDevs() const
 {
   pcap_if_t* allDevs = nullptr;

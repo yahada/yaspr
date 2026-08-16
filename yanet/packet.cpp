@@ -1,4 +1,5 @@
 #include "packet.hpp"
+#include <iostream>
 yaspr::Packet::Packet(pcap_t* descr, const u_char* packet, const pcap_pkthdr* pktinfo)
 {
   defineLinkLayerProtocol(descr, packet, pktinfo);
@@ -13,17 +14,25 @@ void yaspr::Packet::defineLinkLayerProtocol(pcap_t* descr, const u_char* packet,
     case -1:
       return;
 
-    case 1:
+    case 11:
       std::cout << "ethernet: ";
       llheader_ = new Ethernet(packet, pktinfo->len);
       break;
     
     default:
       std::cout << "yet unknown prot: " << linkLayerProt << '\n';
+      llheader_ = nullptr;
+      break;
   }
 }
 
 void yaspr::Packet::showLinkLayerInfo() const
 {
+  if (!llheader_)
+  {
+    std::cout << "unsupported protocol\n";
+    return;
+  }
   std::cout << llheader_->destAddr() << "<-" << llheader_->sourceAddr() << '\n';
 }
+
