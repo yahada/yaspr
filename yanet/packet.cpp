@@ -14,7 +14,7 @@ void yaspr::Packet::defineLinkLayerProtocol(pcap_t* descr, const u_char* packet,
     case -1:
       return;
 
-    case 11:
+    case 1:
       std::cout << "ethernet: ";
       llheader_ = new Ethernet(packet, pktinfo->len);
       break;
@@ -33,6 +33,9 @@ void yaspr::Packet::showLinkLayerInfo() const
     std::cout << "unsupported protocol\n";
     return;
   }
+#if 0
   std::cout << llheader_->destAddr() << "<-" << llheader_->sourceAddr() << '\n';
+#endif
+  std::cout << "next layer protocol: " <<  llheader_->netProt() << '\n';
 }
 

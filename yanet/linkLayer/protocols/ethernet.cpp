@@ -26,3 +26,7 @@ yaspr::mac_t yaspr::Ethernet::sourceAddr() const noexcept
   return shost_;
 }
 
+uint16_t yaspr::Ethernet::netProt() const noexcept
+{
+  return ether_type_;
+}

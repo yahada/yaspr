@@ -14,6 +14,7 @@ namespace yaspr
   public:
     virtual mac_t destAddr() const noexcept = 0;
     virtual mac_t sourceAddr() const noexcept = 0;
+    virtual uint16_t netProt() const noexcept = 0;
     virtual ~LinkLayerHeader() = default;
   private:
     void showAddr(std::ostream&, mac_t) const noexcept;

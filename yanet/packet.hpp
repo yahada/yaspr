@@ -13,12 +13,12 @@ namespace yaspr
     void showLinkLayerInfo() const;
   private:
     LinkLayerHeader* llheader_;
-    // NetworkLayerHeader* nlheader_;
+    NetworkLayerHeader* nlheader_;
     // TransportLayerHeader* tlheader_;
     // std::vector<uint8_t> data_;
 
     void defineLinkLayerProtocol(pcap_t* descr, const u_char* packet, const pcap_pkthdr* pktinfo);
-    // void defineNetworkLayerProtocol();
+    void defineNetworkLayerProtocol();
     // void defineTransportLayerProtocol();
   };
 }
