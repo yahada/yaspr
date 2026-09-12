@@ -40,6 +40,17 @@ uint8_t yaspr::IPv4::transportProtocol() const noexcept
   return protocol_;
 }
 
+std::string yaspr::IPv4::getSourseAddr() const noexcept
+{
+  return ipv4ToString(source_);
+}
+
+std::string yaspr::IPv4::getDestAddr() const noexcept
+{
+  return ipv4ToString(dest_);
+}
+
+
 std::string yaspr::IPv4::ipv4ToString(ipv4_addr_t addr) const
 {
   std::string strAddr;

@@ -33,10 +33,13 @@ void yaspr::Packet::showLinkLayerInfo() const
     std::cout << "unsupported protocol\n";
     return;
   }
-#if 0
-  std::cout << llheader_->destAddr() << "<-" << llheader_->sourceAddr() << '\n';
+#if 1
+  std::cout << "LLY: " << llheader_->destAddr() << "<-" << llheader_->sourceAddr() << '\n';
 #endif
+
+#if 0
   std::cout << "next layer protocol: " <<  llheader_->netProt() << '\n';
+#endif
 }
 
 
@@ -51,9 +54,14 @@ void yaspr::Packet::defineNetworkLayerProtocol(const u_char* packet, size_t Link
     break;
   default:
     nlheader_ = nullptr;
-        break;
+    break;
   }
-
 }
+
+void yaspr::Packet::showNetworkLayerShortInfo() const
+{
+  std::cout << "NLY: " << nlheader_->getDestAddr() << "<-" << nlheader_->getSourseAddr() << '\n';
+}
+
 
 

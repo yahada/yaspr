@@ -18,7 +18,8 @@ namespace yaspr
     Packet(pcap_t* descr, const u_char* packet, const pcap_pkthdr* pktinfo);
 
     void showLinkLayerInfo() const;
-    void showNetworkLayerInfo() const;
+    void showNetworkLayerShortInfo() const;
+    void showNetworkLayerFullInfo() const;
   private:
     LinkLayerHeader* llheader_;
     NetworkLayerHeader* nlheader_;

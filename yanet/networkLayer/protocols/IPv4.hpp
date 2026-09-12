@@ -9,6 +9,9 @@ namespace yaspr
   using ipv4_addr_t = std::array<uint8_t, 4>;
   class IPv4 final: public NetworkLayerHeader {
   public:
+    std::string getSourseAddr() const noexcept override;
+    std::string getDestAddr() const noexcept override;
+
     IPv4(const u_char* bytes, size_t linkLayerPayload);
     uint8_t transportProtocol() const noexcept override;
     std::unordered_map< std::string, std::string > getFields() const override;

@@ -2,12 +2,13 @@
 #include <iostream>
 int main()
 {
-  
+
   yaspr::Sniffer snf;
-  snf.chooseDev("enp4s0");
+  snf.getAllDevs();
+  // snf.chooseDev("enp4s0");
 
 
-  snf.startSniffing();
+  // snf.startSniffing();
   //PART 1
   //TODO: packet sniffer begin stuff using:
   //-pcap
