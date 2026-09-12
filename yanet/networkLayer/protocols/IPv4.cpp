@@ -3,29 +3,34 @@
 
 yaspr::IPv4::IPv4(const u_char* bytes, size_t linkLayerPayload)
 {
-  uin8_t firstByte;
-  std::memcpy(&firstByte, bytes + linkLayerPayload, 1);
-  
+  const u_char* shiftedBytes = bytes + linkLayerPayload;
+  uint8_t firstByte;
+  std::memcpy(&firstByte, shiftedBytes, 1);
+
   version_ = firstByte >> 4;
   ihl_ = firstByte & 0x0F;
 
-  std::memcpy(&differentiatedServices_, bytes + linkLayerPayload + 1, 1);
-  std::memcpy(&totalLength_, bytes + linkLayerPayload + 2, 2);
-  std::memcpy(&identification_, bytes + linkLayerPayload + 4, 2);
+  std::memcpy(&differentiatedServices_, shiftedBytes + 1, 1);
+
+  std::memcpy(&totalLength_, shiftedBytes + 2, 2);
+  totalLength_ = ntohs(totalLength_);
+  std::memcpy(&identification_, shiftedBytes + 4, 2);
+  identification_ = ntohs(identification_);
 
   uint16_t fragment;
-  std::memcpy(&fragment, bytes + linkLayerPayload + 6, 2);
-
+  std::memcpy(&fragment, shiftedBytes + 6, 2);
+  fragment = ntohs(fragment);
   flags_  = fragment >> 13;
-  fragmentOffset = fragment & 0x0FFF;
+  fragmentOffset_ = fragment & 0x1FFF;
 
-  std::memcpy(&timeToLive_, bytes + linkLayerPayload + 8, 1);
-  std::memcpy(&protocol_, bytes + linkLayerPayload + 9, 1);
+  std::memcpy(&timeToLive_, shiftedBytes + 8, 1);
+  std::memcpy(&protocol_, shiftedBytes + 9, 1);
 
-  std::memcpy(&checksum_, bytes + linkLayerPayload + 10, 2);
-  std::memcpy(&source_, bytes + linkLayerPayload + 12, 4);
-  
-  std::memcpy(&dest_, bytes + linkLayerPayload + 16, 4);
+  std::memcpy(&checksum_, shiftedBytes + 10, 2);
+
+  std::memcpy(&source_, shiftedBytes + 12, 4);
+
+  std::memcpy(&dest_, shiftedBytes + 16, 4);
 
 }
 
@@ -62,9 +67,9 @@ std::unordered_map< std::string, std::string > yaspr::IPv4::getFields() const
   fields["Time To Live"] = std::to_string(timeToLive_);
   fields["Protocol"] = std::to_string(protocol_);
   fields["Checksum"] = std::to_string(checksum_);
-  
+
   fields["Source"] = ipv4ToString(source_);
   fields["Destination"] = ipv4ToString(dest_);
-  
+
   fields["Options Length"] = std::to_string(options_.size());
 }

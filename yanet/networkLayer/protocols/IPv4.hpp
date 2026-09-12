@@ -1,10 +1,12 @@
 #ifndef IPV4_HPP
 #define IPV4_HPP
-#include <../NetworkLayerHeader.hpp>
+#include "../networkLayerHeader.hpp"
+#include <sys/types.h>
+#include <vector>
 #include <array>
 namespace yaspr
 {
-  using ipv4_addr_t = std::array<uint8_t, 4> 
+  using ipv4_addr_t = std::array<uint8_t, 4>;
   class IPv4 final: public NetworkLayerHeader {
   public:
     IPv4(const u_char* bytes, size_t linkLayerPayload);
@@ -27,9 +29,8 @@ namespace yaspr
     ipv4_addr_t dest_;
     std::vector<uint8_t> options_;
 
-
     std::string ipv4ToString(ipv4_addr_t addr) const;
-  }
+  };
 }
 
 #endif

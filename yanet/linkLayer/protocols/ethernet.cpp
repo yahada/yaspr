@@ -2,7 +2,7 @@
 #include <arpa/inet.h>
 #include <cstring>
 #include <iostream>
-yaspr::Ethernet::Ethernet(const u_char* bytes, size_t len) 
+yaspr::Ethernet::Ethernet(const u_char* bytes, size_t len)
 {
   if (len < 14)
   {
@@ -29,4 +29,9 @@ yaspr::mac_t yaspr::Ethernet::sourceAddr() const noexcept
 uint16_t yaspr::Ethernet::netProt() const noexcept
 {
   return ether_type_;
+}
+
+size_t yaspr::Ethernet::payload() const noexcept
+{
+  return 14;
 }

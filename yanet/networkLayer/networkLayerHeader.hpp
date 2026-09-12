@@ -8,6 +8,7 @@ namespace yaspr
 
     virtual std::unordered_map< std::string, std::string > getFields() const = 0;
     virtual ~NetworkLayerHeader() = default;
+  };
 }
 
 

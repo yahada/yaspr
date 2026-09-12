@@ -18,7 +18,7 @@ void yaspr::Packet::defineLinkLayerProtocol(pcap_t* descr, const u_char* packet,
       std::cout << "ethernet: ";
       llheader_ = new Ethernet(packet, pktinfo->len);
       break;
-    
+
     default:
       std::cout << "yet unknown prot: " << linkLayerProt << '\n';
       llheader_ = nullptr;
@@ -38,4 +38,22 @@ void yaspr::Packet::showLinkLayerInfo() const
 #endif
   std::cout << "next layer protocol: " <<  llheader_->netProt() << '\n';
 }
+
+
+void yaspr::Packet::defineNetworkLayerProtocol(const u_char* packet, size_t LinkLayerPayload)
+{
+  uint16_t NetworkLayerProt = llheader_->netProt();
+
+  switch (NetworkLayerProt)
+  {
+  case(ETHERTYPE_IPV4):
+    nlheader_ = new IPv4(packet, LinkLayerPayload);
+    break;
+  default:
+    nlheader_ = nullptr;
+        break;
+  }
+
+}
+
 

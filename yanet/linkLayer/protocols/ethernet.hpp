@@ -14,10 +14,11 @@ namespace yaspr
     mac_t destAddr() const noexcept override;
     mac_t sourceAddr() const noexcept override;
     uint16_t netProt() const noexcept override;
+    size_t payload() const noexcept override;
   private:
     mac_t dhost_;
     mac_t shost_;
-    uint16_t ether_type_; 
+    uint16_t ether_type_;
   };
 }
 
