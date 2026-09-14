@@ -54,11 +54,11 @@ std::string yaspr::IPv4::getDestAddr() const noexcept
 std::string yaspr::IPv4::ipv4ToString(ipv4_addr_t addr) const
 {
   std::string strAddr;
-  strAddr += addr[0];
+  strAddr += static_cast<unsigned int>(addr[0]);
   for (size_t i = 1; i < 4; ++i)
   {
     strAddr += '.';
-    strAddr += addr[i];
+    strAddr += static_cast<unsigned int>(addr[i]);
   }
 
   return strAddr;

@@ -66,6 +66,7 @@ void packet_callback(u_char* user, const pcap_pkthdr* h, const u_char* packet)
   auto* sniffer = reinterpret_cast<yaspr::Sniffer*> (user);
   yaspr::Packet pkt = sniffer->packetTranscript(h, packet);
   pkt.showLinkLayerInfo();
+  std::cout << "waiting for net prot init\n";
   pkt.showNetworkLayerShortInfo();
   std::cout << "------------------------\n";
 
@@ -74,6 +75,7 @@ void packet_callback(u_char* user, const pcap_pkthdr* h, const u_char* packet)
 
 void yaspr::Sniffer::startSniffing()
 {
+  std::cout << "start\n";
   assert(!device_.empty());
 
   char errbuf[PCAP_ERRBUF_SIZE];

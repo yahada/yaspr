@@ -9,7 +9,7 @@ namespace yaspr
     for (size_t byteNum = 1; byteNum < ETH_ALEN; ++byteNum)
     {
       out << ':';
-      out << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(addr[byteNum]); 
+      out << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(addr[byteNum]);
     }
     return out;
   }

@@ -18,7 +18,6 @@ namespace yaspr
     virtual size_t payload() const noexcept = 0;
     virtual ~LinkLayerHeader() = default;
   private:
-    void showAddr(std::ostream&, mac_t) const noexcept;
   };
   std::ostream& operator<<(std::ostream& out, mac_t addr);
 }

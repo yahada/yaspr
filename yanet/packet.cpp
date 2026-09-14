@@ -3,6 +3,7 @@
 yaspr::Packet::Packet(pcap_t* descr, const u_char* packet, const pcap_pkthdr* pktinfo)
 {
   defineLinkLayerProtocol(descr, packet, pktinfo);
+  defineNetworkLayerProtocol(packet, llheader_->payload());
 }
 
 
@@ -15,7 +16,7 @@ void yaspr::Packet::defineLinkLayerProtocol(pcap_t* descr, const u_char* packet,
       return;
 
     case 1:
-      std::cout << "ethernet: ";
+      // std::cout << "ethernet: ";
       llheader_ = new Ethernet(packet, pktinfo->len);
       break;
 
@@ -46,6 +47,7 @@ void yaspr::Packet::showLinkLayerInfo() const
 void yaspr::Packet::defineNetworkLayerProtocol(const u_char* packet, size_t LinkLayerPayload)
 {
   uint16_t NetworkLayerProt = llheader_->netProt();
+  std::cout << "starting definition\n";
 
   switch (NetworkLayerProt)
   {
@@ -56,10 +58,16 @@ void yaspr::Packet::defineNetworkLayerProtocol(const u_char* packet, size_t Link
     nlheader_ = nullptr;
     break;
   }
+  std::cout << "net prot defined\n";
 }
 
 void yaspr::Packet::showNetworkLayerShortInfo() const
 {
+  if (!llheader_)
+  {
+    std::cout << "unsupported protocol\n";
+    return;
+  }
   std::cout << "NLY: " << nlheader_->getDestAddr() << "<-" << nlheader_->getSourseAddr() << '\n';
 }
 
