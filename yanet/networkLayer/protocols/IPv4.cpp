@@ -27,11 +27,16 @@ yaspr::IPv4::IPv4(const u_char* bytes, size_t linkLayerPayload)
   std::memcpy(&protocol_, shiftedBytes + 9, 1);
 
   std::memcpy(&checksum_, shiftedBytes + 10, 2);
+  checksum_ = ntohs(checksum_);
 
   std::memcpy(&source_, shiftedBytes + 12, 4);
 
   std::memcpy(&dest_, shiftedBytes + 16, 4);
-
+  if (ihl_ > 5)
+  {
+    size_t optionsLen = (ihl_ - 5) * 4;
+    options_.assign(shiftedBytes + 20, shiftedBytes + 20 + optionsLen);
+  }
 }
 
 
@@ -40,31 +45,23 @@ uint8_t yaspr::IPv4::transportProtocol() const noexcept
   return protocol_;
 }
 
-std::string yaspr::IPv4::getSourseAddr() const noexcept
+std::string yaspr::IPv4::sourceAddr() const noexcept
 {
   return ipv4ToString(source_);
 }
 
-std::string yaspr::IPv4::getDestAddr() const noexcept
+std::string yaspr::IPv4::destAddr() const noexcept
 {
   return ipv4ToString(dest_);
 }
 
 
-std::string yaspr::IPv4::ipv4ToString(ipv4_addr_t addr) const
+std::string yaspr::IPv4::ipv4ToString(ipv4_t addr) const
 {
-  std::string strAddr;
-  strAddr += static_cast<unsigned int>(addr[0]);
-  for (size_t i = 1; i < 4; ++i)
-  {
-    strAddr += '.';
-    strAddr += static_cast<unsigned int>(addr[i]);
-  }
-
-  return strAddr;
+  return std::to_string(addr[0]) + '.' + std::to_string(addr[1]) + '.' + std::to_string(addr[2]) + '.' + std::to_string(addr[3]);
 }
 
-std::unordered_map< std::string, std::string > yaspr::IPv4::getFields() const
+std::unordered_map< std::string, std::string > yaspr::IPv4::getFields() const noexcept
 {
   std::unordered_map< std::string, std::string > fields;
   fields["Version"] = std::to_string(version_);
@@ -83,4 +80,6 @@ std::unordered_map< std::string, std::string > yaspr::IPv4::getFields() const
   fields["Destination"] = ipv4ToString(dest_);
 
   fields["Options Length"] = std::to_string(options_.size());
+  //TODO: read options;
+  return fields;
 }

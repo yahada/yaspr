@@ -47,29 +47,32 @@ void yaspr::Packet::showLinkLayerInfo() const
 void yaspr::Packet::defineNetworkLayerProtocol(const u_char* packet, size_t LinkLayerPayload)
 {
   uint16_t NetworkLayerProt = llheader_->netProt();
-  std::cout << "starting definition\n";
+  // std::cout << "starting definition\n";
 
   switch (NetworkLayerProt)
   {
   case(ETHERTYPE_IPV4):
     nlheader_ = new IPv4(packet, LinkLayerPayload);
     break;
+  case(ETHERTYPE_IPV6):
+    nlheader_ = new IPv6(packet, LinkLayerPayload);
+    break;
   default:
+
     nlheader_ = nullptr;
     break;
   }
-  std::cout << "net prot defined\n";
+  // std::cout << "net prot defined\n";
 }
 
 void yaspr::Packet::showNetworkLayerShortInfo() const
 {
-  if (!llheader_)
+  if (!nlheader_)
   {
-    std::cout << "unsupported protocol\n";
+    std::cout << "unsupported protocol: " << llheader_->netProt() << "\n";
     return;
   }
-  std::cout << "NLY: " << nlheader_->getDestAddr() << "<-" << nlheader_->getSourseAddr() << '\n';
+  std::cout << "NLY: " << nlheader_->destAddr() << "<-" << nlheader_->sourceAddr() << '\n';
 }
-
 
 

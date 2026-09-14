@@ -6,6 +6,7 @@
 #include "linkLayer/protocols/ethernet.hpp"
 #include "networkLayer/networkLayerHeader.hpp"
 #include "networkLayer/protocols/IPv4.hpp"
+#include "networkLayer/protocols/IPv6.hpp"
 namespace yaspr
 {
 
@@ -19,7 +20,7 @@ namespace yaspr
 
     void showLinkLayerInfo() const;
     void showNetworkLayerShortInfo() const;
-    void showNetworkLayerFullInfo() const;
+    // void showNetworkLayerFullInfo() const;
   private:
     LinkLayerHeader* llheader_;
     NetworkLayerHeader* nlheader_;

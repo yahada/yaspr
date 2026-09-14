@@ -6,15 +6,14 @@
 #include <array>
 namespace yaspr
 {
-  using ipv4_addr_t = std::array<uint8_t, 4>;
   class IPv4 final: public NetworkLayerHeader {
   public:
-    std::string getSourseAddr() const noexcept override;
-    std::string getDestAddr() const noexcept override;
+    std::string sourceAddr() const noexcept override;
+    std::string destAddr() const noexcept override;
 
     IPv4(const u_char* bytes, size_t linkLayerPayload);
     uint8_t transportProtocol() const noexcept override;
-    std::unordered_map< std::string, std::string > getFields() const override;
+    std::unordered_map< std::string, std::string > getFields() const noexcept override;
   private:
     uint8_t version_;
     uint8_t ihl_;
@@ -28,11 +27,11 @@ namespace yaspr
     uint8_t timeToLive_;
     uint8_t protocol_;
     uint16_t checksum_;
-    ipv4_addr_t source_;
-    ipv4_addr_t dest_;
+    ipv4_t source_;
+    ipv4_t dest_;
     std::vector<uint8_t> options_;
 
-    std::string ipv4ToString(ipv4_addr_t addr) const;
+    std::string ipv4ToString(ipv4_t addr) const;
   };
 }
 

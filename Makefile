@@ -4,7 +4,7 @@ CPPFLAGS := -MMD -MP
 CXXFLAGS := -O2 -Wall -Wextra -std=c++17
 
 OUT_O_DIR ?= build
-CPPSRC =  yanet/linkLayer/protocols/ethernet.cpp yanet/linkLayer/linkLayerHeader.cpp yanet/networkLayer/protocols/IPv4.cpp yanet/packet.cpp main.cpp sniffer.cpp
+CPPSRC =  yanet/linkLayer/protocols/ethernet.cpp yanet/linkLayer/linkLayerHeader.cpp yanet/networkLayer/protocols/IPv4.cpp yanet/networkLayer/protocols/IPv6.cpp yanet/packet.cpp main.cpp sniffer.cpp
 
 CPPOBJ := $(CPPSRC:%.cpp=$(OUT_O_DIR)/%.o)
 DEPS = $(CPPOBJ:.o=.d)
