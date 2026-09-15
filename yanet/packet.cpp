@@ -69,7 +69,7 @@ void yaspr::Packet::showNetworkLayerShortInfo() const
 {
   if (!nlheader_)
   {
-    std::cout << "unsupported protocol: " << llheader_->netProt() << "\n";
+    // std::cout << "unsupported protocol: " << llheader_->netProt() << "\n";
     return;
   }
   std::cout << "NLY: " << nlheader_->destAddr() << "<-" << nlheader_->sourceAddr() << '\n';

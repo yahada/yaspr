@@ -4,14 +4,17 @@
 yaspr::IPv6::IPv6(const u_char* bytes, size_t linkLayerPayload)
 {
   const u_char* shiftedBytes = bytes + linkLayerPayload;
-  std::memcpy(&version_, shiftedBytes, 1);
-  std::memcpy(&trafficClass_, shiftedBytes + 1, 2);
-  std::memcpy(&flowLabel_, shiftedBytes + 3, 5);
-  std::memcpy(&payloadLength_, shiftedBytes + 8, 4);
-  std::memcpy(&nextHeader_, shiftedBytes + 12, 2);
-  std::memcpy(&hopLimit_, shiftedBytes + 14, 2);
-  std::memcpy(&source_, shiftedBytes + 16, 32);
-  std::memcpy(&dest_, shiftedBytes + 48, 32);
+  uint32_t fragment;
+  std::memcpy(&fragment, shiftedBytes, 4);
+  version_ = fragment >> 28;
+  trafficClass_ = (fragment >> 20) & 0xFF;
+  flowLabel_ = fragment & 0xFFFFF;
+
+  std::memcpy(&payloadLength_, shiftedBytes + 4, 2);
+  std::memcpy(&nextHeader_, shiftedBytes + 6, 1);
+  std::memcpy(&hopLimit_, shiftedBytes + 7, 1);
+  std::memcpy(&source_, shiftedBytes + 8, 16);
+  std::memcpy(&dest_, shiftedBytes + 24, 16);
 }
 
 

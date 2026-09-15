@@ -1,4 +1,5 @@
 #include "IPv4.hpp"
+#include <arpa/inet.h>
 
 
 yaspr::IPv4::IPv4(const u_char* bytes, size_t linkLayerPayload)
@@ -58,7 +59,10 @@ std::string yaspr::IPv4::destAddr() const noexcept
 
 std::string yaspr::IPv4::ipv4ToString(ipv4_t addr) const
 {
-  return std::to_string(addr[0]) + '.' + std::to_string(addr[1]) + '.' + std::to_string(addr[2]) + '.' + std::to_string(addr[3]);
+  char buffer[INET_ADDRSTRLEN];
+
+  inet_ntop(AF_INET, addr.data(), buffer,  INET_ADDRSTRLEN);
+  return std::string(buffer);
 }
 
 std::unordered_map< std::string, std::string > yaspr::IPv4::getFields() const noexcept
